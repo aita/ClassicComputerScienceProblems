@@ -109,6 +109,7 @@ impl KMeans {
             points,
             clusters: Vec::new(),
         };
+        kmeans.zscore_normalize();
         for _ in 0..k {
             let random_point = kmeans.random_point();
             kmeans.clusters.push(Cluster {
@@ -116,7 +117,6 @@ impl KMeans {
                 centroid: random_point,
             });
         }
-        kmeans.zscore_normalize();
         kmeans
     }
 
@@ -140,6 +140,7 @@ impl KMeans {
                 zscored[i].push(*zscore);
             }
         }
+
         for (i, dimentions) in zscored.into_iter().enumerate() {
             self.points[i].dimensions = dimentions;
         }
@@ -157,15 +158,19 @@ impl KMeans {
     }
 
     fn assign_cluster(&mut self) {
-        for point in &self.points {
-            let (idx, closest) = self
+        for (handle, point) in self.points.iter().enumerate() {
+            let (idx, _closest) = self
                 .centroids()
                 .iter()
                 .enumerate()
-                .min_by(|(_, a), (_, b)| a.distance(point).partial_cmp(&b.distance(point)).unwrap())
+                .min_by(|(_, a), (_, b)| {
+                    let da = a.distance(point);
+                    let db = b.distance(point);
+                    da.partial_cmp(&db).unwrap()
+                })
                 .unwrap();
             let cluster = &mut self.clusters[idx];
-            cluster.points.push(idx);
+            cluster.points.push(handle);
         }
     }
 
@@ -198,7 +203,7 @@ impl KMeans {
             let old_centroids = old_centroids.iter().map(|x| x).collect::<Vec<_>>();
             let centroids = self.centroids();
             if old_centroids == centroids {
-                println!("Converged after {} iterations", iteration);
+                tracing::info!("Converged after {} iterations", iteration);
                 break;
             }
         }

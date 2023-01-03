@@ -1,6 +1,8 @@
 use classic_computer_science_problems::kmeans::*;
 
 fn main() {
+    tracing_subscriber::fmt::init();
+
     let points = vec![
         DataPoint::new(vec![2.0, 1.0, 1.0]),
         DataPoint::new(vec![2.0, 2.0, 5.0]),
