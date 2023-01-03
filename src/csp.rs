@@ -9,8 +9,8 @@ pub trait Constraint<V, D> {
 
 pub struct CSP<V, D, C>
 where
-    V: Eq + Hash + Clone,
-    D: Eq + Hash + Clone,
+    V: Eq + Hash,
+    D: Eq,
     C: Constraint<V, D>,
 {
     variables: Vec<V>,
@@ -21,7 +21,7 @@ where
 impl<V, D, C> CSP<V, D, C>
 where
     V: Eq + Hash + Clone,
-    D: Eq + Hash + Clone,
+    D: Eq + Clone,
     C: Constraint<V, D>,
 {
     pub fn new(variables: Vec<V>, domains: HashMap<V, Vec<D>>) -> Self {
