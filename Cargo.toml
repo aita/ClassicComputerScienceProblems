@@ -9,4 +9,7 @@ edition = "2021"
 approx = "0.5.1"
 bumpalo = { version = "3.11.1", features = ["boxed", "collections"] }
 itertools = "0.10.5"
+ordered-float = "3.4.0"
 rand = "0.8.5"
+tracing = "0.1.37"
+tracing-subscriber = "0.3.16"

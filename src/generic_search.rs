@@ -5,20 +5,20 @@ use std::collections::{BinaryHeap, HashMap, HashSet, VecDeque};
 use std::hash::Hash;
 use std::marker::PhantomData;
 
-pub struct Graph<'bump, T> {
-    bump: &'bump Bump,
+pub struct Arena<T> {
+    bump: Bump,
     phantom: PhantomData<T>,
 }
 
-impl<'bump, T> Graph<'bump, T> {
-    pub fn new(bump: &'bump Bump) -> Self {
+impl<T> Arena<T> {
+    pub fn new() -> Self {
         Self {
-            bump,
+            bump: Bump::new(),
             phantom: PhantomData,
         }
     }
 
-    pub fn add_node(&self, node: Node<'bump, T>) -> &'bump Node<T> {
+    pub fn add_node<'bump>(&'bump self, node: Node<'bump, T>) -> &'bump Node<T> {
         let node = self.bump.alloc(node);
         node
     }
@@ -80,7 +80,7 @@ impl<'bump, T> PartialOrd for Node<'bump, T> {
 }
 
 pub fn dfs<'bump, T, G, S>(
-    graph: &'bump Graph<'bump, T>,
+    arena: &'bump Arena<T>,
     initial: &T,
     goal_test: G,
     successors: S,
@@ -91,7 +91,7 @@ where
     S: Fn(&T) -> Vec<T>,
 {
     let mut frontier = Vec::new();
-    frontier.push(graph.add_node(Node::new(initial.clone(), None)));
+    frontier.push(arena.add_node(Node::new(initial.clone(), None)));
 
     let mut explored = HashSet::new();
     explored.insert(initial.clone());
@@ -103,7 +103,7 @@ where
         for child in successors(&node.state) {
             if !explored.contains(&child) {
                 explored.insert(child.clone());
-                frontier.push(graph.add_node(Node::new(child.clone(), Some(node))));
+                frontier.push(arena.add_node(Node::new(child.clone(), Some(node))));
             }
         }
     }
@@ -123,7 +123,7 @@ pub fn node_to_path<T: Clone>(node: &Node<T>) -> Vec<T> {
 }
 
 pub fn bfs<'bump, T, G, S>(
-    graph: &'bump Graph<'bump, T>,
+    arena: &'bump Arena<T>,
     initial: &T,
     goal_test: G,
     successors: S,
@@ -134,7 +134,7 @@ where
     S: Fn(&T) -> Vec<T>,
 {
     let mut frontier = VecDeque::new();
-    frontier.push_back(graph.add_node(Node::new(initial.clone(), None)));
+    frontier.push_back(arena.add_node(Node::new(initial.clone(), None)));
 
     let mut explored = HashSet::new();
     explored.insert(initial.clone());
@@ -146,7 +146,7 @@ where
         for child in successors(&node.state) {
             if !explored.contains(&child) {
                 explored.insert(child.clone());
-                frontier.push_back(graph.add_node(Node::new(child.clone(), Some(node))));
+                frontier.push_back(arena.add_node(Node::new(child.clone(), Some(node))));
             }
         }
     }
@@ -155,7 +155,7 @@ where
 }
 
 pub fn astar<'bump, T, G, S, H>(
-    graph: &'bump Graph<'bump, T>,
+    arena: &'bump Arena<T>,
     initial: &T,
     goal_test: G,
     successors: S,
@@ -168,7 +168,7 @@ where
     H: Fn(&T) -> f64,
 {
     let mut frontier = BinaryHeap::new();
-    frontier.push(graph.add_node(Node::with_heuristic(
+    frontier.push(arena.add_node(Node::with_heuristic(
         initial.clone(),
         None,
         0.0,
@@ -188,7 +188,7 @@ where
                 explored.insert(child.clone(), new_cost);
                 let node =
                     Node::with_heuristic(child.clone(), Some(node), new_cost, heuristic(&child));
-                frontier.push(graph.add_node(node));
+                frontier.push(arena.add_node(node));
             }
         }
     }

@@ -1,5 +1,4 @@
-use bumpalo::Bump;
-use classic_computer_science_problems::generic_search::{astar, bfs, dfs, node_to_path, Graph};
+use classic_computer_science_problems::generic_search::{astar, bfs, dfs, node_to_path, Arena};
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -184,13 +183,11 @@ fn main() {
     println!("Maze:");
     maze.show();
 
-    let bump = Bump::new();
-
     {
         println!("\nSolving maze using depth-first search:");
-        let graph = Graph::new(&bump);
+        let arena = Arena::new();
         let solution = dfs(
-            &graph,
+            &arena,
             &maze.start,
             |loc| maze.goal_test(loc),
             |loc| maze.successors(loc),
@@ -206,9 +203,9 @@ fn main() {
 
     {
         println!("\nSolving maze using breadth-first search:");
-        let graph = Graph::new(&bump);
+        let arena = Arena::new();
         let solution = bfs(
-            &graph,
+            &arena,
             &maze.start,
             |loc| maze.goal_test(loc),
             |loc| maze.successors(loc),
@@ -224,9 +221,9 @@ fn main() {
 
     {
         println!("\nSolving maze using A* search:");
-        let graph = Graph::new(&bump);
+        let arena = Arena::new();
         let solution = astar(
-            &graph,
+            &arena,
             &maze.start,
             |loc| maze.goal_test(loc),
             |loc| maze.successors(loc),

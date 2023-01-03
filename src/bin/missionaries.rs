@@ -1,5 +1,4 @@
-use bumpalo::Bump;
-use classic_computer_science_problems::generic_search::{bfs, node_to_path, Graph};
+use classic_computer_science_problems::generic_search::{bfs, node_to_path, Arena};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 struct MCState<const MAX_NUM: usize = 3> {
@@ -118,9 +117,8 @@ fn main() {
     let start = MCState::new(3, 3, true);
     let goal = |x: &MCState| x.goal_test();
     let successors = |x: &MCState| x.successors();
-    let bump = Bump::new();
-    let graph = Graph::new(&bump);
-    let solution = bfs(&graph, &start, goal, successors);
+    let arena = Arena::new();
+    let solution = bfs(&arena, &start, goal, successors);
     if let Some(node) = solution {
         let path = node_to_path(node);
         display_solution(path);
