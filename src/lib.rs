@@ -5,4 +5,5 @@ pub mod generic_search;
 pub mod genetic_algorithm;
 pub mod kmeans;
 pub mod minimax;
+pub mod neural_network;
 pub mod tictactoe;
