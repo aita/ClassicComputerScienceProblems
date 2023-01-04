@@ -36,6 +36,7 @@ dependencies = [
  "approx",
  "bumpalo",
  "itertools",
+ "lazy_static",
  "ordered-float",
  "rand",
  "tracing",
