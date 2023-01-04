@@ -1,42 +1,50 @@
 use std::{
     cell::{Cell, RefCell},
-    rc::Rc,
+    marker::PhantomData,
 };
 
 use ndarray::{Array, Array1, ArrayView1, ArrayView2, Axis};
 use ndarray_rand::{rand_distr::Uniform, RandomExt};
 
-struct Neuron<A, D>
+pub trait ActivateFunction {
+    fn activate(x: f64) -> f64;
+    fn deactivate(x: f64) -> f64;
+}
+
+pub struct Sigmoid;
+
+impl ActivateFunction for Sigmoid {
+    fn activate(x: f64) -> f64 {
+        1.0 / (1.0 + (-x).exp())
+    }
+
+    fn deactivate(x: f64) -> f64 {
+        x * (1.0 - x)
+    }
+}
+
+struct Neuron<A>
 where
-    A: Fn(f64) -> f64,
-    D: Fn(f64) -> f64,
+    A: ActivateFunction,
 {
     weights: Option<Array1<f64>>,
-    activation_function: Rc<RefCell<A>>,
-    deactivation_function: Rc<RefCell<D>>,
     learning_rate: f64,
     output_cache: Cell<f64>,
     delta: f64,
+    _activation_function: PhantomData<A>,
 }
 
-impl<A, D> Neuron<A, D>
+impl<A> Neuron<A>
 where
-    A: Fn(f64) -> f64,
-    D: Fn(f64) -> f64,
+    A: ActivateFunction,
 {
-    fn new(
-        weights: Option<Array1<f64>>,
-        learning_rate: f64,
-        activation_function: Rc<RefCell<A>>,
-        deactivation_function: Rc<RefCell<D>>,
-    ) -> Self {
+    fn new(weights: Option<Array1<f64>>, learning_rate: f64) -> Self {
         Self {
             weights,
             learning_rate,
-            activation_function,
-            deactivation_function,
             output_cache: Cell::new(0.0),
             delta: 0.0,
+            _activation_function: PhantomData,
         }
     }
 
@@ -55,36 +63,32 @@ where
     }
 
     fn activation_function(&self, val: f64) -> f64 {
-        (self.activation_function.borrow())(val)
+        A::activate(val)
     }
 
     fn deactivation_function(&self, val: f64) -> f64 {
-        (self.deactivation_function.borrow())(val)
+        A::deactivate(val)
     }
 }
 
-struct Layer<A, D>
+struct Layer<A>
 where
-    A: Fn(f64) -> f64,
-    D: Fn(f64) -> f64,
+    A: ActivateFunction,
 {
     layer_index: usize,
-    neurons: Vec<Neuron<A, D>>,
+    neurons: Vec<Neuron<A>>,
     output_cache: RefCell<Array1<f64>>,
 }
 
-impl<A, D> Layer<A, D>
+impl<A> Layer<A>
 where
-    A: Fn(f64) -> f64,
-    D: Fn(f64) -> f64,
+    A: ActivateFunction,
 {
     fn new(
-        previous_layer: Option<&Layer<A, D>>,
+        previous_layer: Option<&Layer<A>>,
         layer_index: usize,
         num_neurons: usize,
         learning_rate: f64,
-        activation_function: Rc<RefCell<A>>,
-        deactivation_function: Rc<RefCell<D>>,
     ) -> Self {
         let mut neurons = Vec::with_capacity(num_neurons);
         for _ in 0..num_neurons {
@@ -96,12 +100,7 @@ where
             } else {
                 None
             };
-            neurons.push(Neuron::new(
-                random_weights,
-                learning_rate,
-                activation_function.clone(),
-                deactivation_function.clone(),
-            ));
+            neurons.push(Neuron::new(random_weights, learning_rate));
         }
         Self {
             layer_index,
@@ -135,7 +134,7 @@ where
         }
     }
 
-    fn calulate_deltas_for_hidden_layer(&mut self, next_layer: &Layer<A, D>) {
+    fn calulate_deltas_for_hidden_layer(&mut self, next_layer: &Self) {
         for (index, neuron) in self.neurons.iter_mut().enumerate() {
             let next_weights = Array1::from_iter(
                 next_layer
@@ -152,40 +151,24 @@ where
     }
 }
 
-pub struct Network<A, D>
+pub struct Network<A = Sigmoid>
 where
-    A: Fn(f64) -> f64,
-    D: Fn(f64) -> f64,
+    A: ActivateFunction,
 {
-    layers: Vec<Layer<A, D>>,
+    layers: Vec<Layer<A>>,
 }
 
-impl<A, D> Network<A, D>
+impl<A> Network<A>
 where
-    A: Fn(f64) -> f64,
-    D: Fn(f64) -> f64,
+    A: ActivateFunction,
 {
-    pub fn new(
-        layer_structure: &[usize],
-        learning_rate: f64,
-        activation_function: A,
-        deactivation_function: D,
-    ) -> Self {
+    pub fn new(layer_structure: &[usize], learning_rate: f64) -> Self {
         if layer_structure.len() < 3 {
             panic!("Network should have at least 3 layers (1 input, 1 hidden, 1 output)");
         }
-        let activation_function = Rc::from(RefCell::from(activation_function));
-        let deactivation_function = Rc::from(RefCell::from(deactivation_function));
         let layers = Vec::with_capacity(layer_structure.len());
         let mut network = Self { layers };
-        let input_layer = Layer::new(
-            None,
-            0,
-            layer_structure[0],
-            learning_rate,
-            activation_function.clone(),
-            deactivation_function.clone(),
-        );
+        let input_layer = Layer::new(None, 0, layer_structure[0], learning_rate);
         network.layers.push(input_layer);
         for (previous, num_neurons) in layer_structure[1..].iter().enumerate() {
             let layer = Layer::new(
@@ -193,8 +176,6 @@ where
                 previous + 1,
                 *num_neurons,
                 learning_rate,
-                activation_function.clone(),
-                deactivation_function.clone(),
             );
             network.layers.push(layer);
         }
