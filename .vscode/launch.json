@@ -1,0 +1,471 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'classic-computer-science-problems'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "classic-computer-science-problems",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'dna_search'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=dna_search",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "dna_search",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'dna_search'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=dna_search",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "dna_search",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'maze'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=maze",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "maze",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'maze'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=maze",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "maze",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'missionaries'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=missionaries",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "missionaries",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'missionaries'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=missionaries",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "missionaries",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'simple_equation'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=simple_equation",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "simple_equation",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'simple_equation'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=simple_equation",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "simple_equation",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'map_coloring'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=map_coloring",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "map_coloring",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'map_coloring'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=map_coloring",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "map_coloring",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'queens'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=queens",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "queens",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'queens'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=queens",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "queens",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'send_more_money2'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=send_more_money2",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "send_more_money2",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'send_more_money2'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=send_more_money2",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "send_more_money2",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'kmeans'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=kmeans",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "kmeans",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'kmeans'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=kmeans",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "kmeans",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'govenors'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=govenors",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "govenors",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'govenors'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=govenors",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "govenors",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'tictactoe'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=tictactoe",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "tictactoe",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'tictactoe'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=tictactoe",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "tictactoe",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'connectfour'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=connectfour",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "connectfour",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'connectfour'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=connectfour",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "connectfour",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'iris'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=iris",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "iris",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'iris'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=iris",
+                    "--package=classic-computer-science-problems"
+                ],
+                "filter": {
+                    "name": "iris",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

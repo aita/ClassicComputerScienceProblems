@@ -3,7 +3,7 @@ use std::{
     marker::PhantomData,
 };
 
-use ndarray::{Array, Array1, ArrayView1, ArrayView2, Axis};
+use ndarray::{Array, Array1, Array2, ArrayView1, ArrayView2, Axis};
 use ndarray_rand::{rand_distr::Uniform, RandomExt};
 
 pub trait ActivateFunction {
@@ -151,7 +151,7 @@ where
     }
 }
 
-pub struct Network<A = Sigmoid>
+pub struct Network<A>
 where
     A: ActivateFunction,
 {
@@ -198,9 +198,9 @@ where
     }
 
     fn update_weights(&mut self) {
-        for i in 0..self.layers.len() - 1 {
+        for i in 1..self.layers.len() {
             let (front, back) = self.layers.split_at_mut(i);
-            let previous_layer = &front[i];
+            let previous_layer = &front[i - 1];
             let layer = &mut back[0];
             for neuron in layer.neurons.iter_mut() {
                 let new_weights = neuron.weights.as_ref().unwrap()
@@ -221,7 +221,7 @@ where
     pub fn validate<T, F>(
         &self,
         inputs: ArrayView2<f64>,
-        expected: Vec<T>,
+        expected: &[T],
         interpret_output: F,
     ) -> (usize, usize, f64)
     where
@@ -237,5 +237,13 @@ where
         }
         let percentage = collect as f64 / inputs.len_of(Axis(0)) as f64;
         (collect, inputs.len_of(Axis(0)), percentage)
+    }
+}
+
+pub fn normalize_by_feature_scaling(data: &mut Array2<f64>) {
+    for mut column in data.axis_iter_mut(Axis(1)) {
+        let min = column.fold(f64::MAX, |acc, x| acc.min(*x));
+        let max = column.fold(f64::MIN, |acc, x| acc.max(*x));
+        column.map_mut(|x| *x = (*x - min) / (max - min));
     }
 }
