@@ -54,7 +54,7 @@ where
         } else {
             0.0
         };
-        self.output_cache.set(output);
+        self.output_cache.set(self.activation_function(output));
         output
     }
 
@@ -111,11 +111,7 @@ where
 
     fn outputs(&self, inputs: ArrayView1<f64>) -> Array1<f64> {
         let output = if self.layer_index > 0 {
-            Array1::from_iter(
-                self.neurons
-                    .iter()
-                    .map(|neuron| neuron.activation_function(neuron.output(inputs))),
-            )
+            Array1::from_iter(self.neurons.iter().map(|neuron| neuron.output(inputs)))
         } else {
             inputs.to_owned()
         };
@@ -191,9 +187,11 @@ where
     fn backpropagate(&mut self, expected: ArrayView1<f64>) {
         let last_layer = self.layers.len() - 1;
         self.layers[last_layer].calulate_deltas_for_output_layer(expected);
-        for i in (0..last_layer - 1).rev() {
-            let (current_layer, next_layer) = self.layers.split_at_mut(i + 1);
-            current_layer[i].calulate_deltas_for_hidden_layer(&next_layer[0]);
+        for i in (1..=last_layer).rev() {
+            let (front, back) = self.layers.split_at_mut(i);
+            let current_layer = &mut front[i - 1];
+            let next_layer = &back[0];
+            current_layer.calulate_deltas_for_hidden_layer(&next_layer);
         }
     }
 
