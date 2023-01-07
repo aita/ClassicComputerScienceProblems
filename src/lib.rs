@@ -3,6 +3,7 @@ pub mod connectfour;
 pub mod csp;
 pub mod generic_search;
 pub mod genetic_algorithm;
+pub mod graph;
 pub mod kmeans;
 pub mod minimax;
 pub mod neural_network;
