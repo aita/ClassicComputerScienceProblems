@@ -124,11 +124,7 @@ impl WeightedEdge {
     }
 }
 
-impl PartialOrd for WeightedEdge {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        self.2.partial_cmp(&other.2)
-    }
-}
+
 
 pub struct WeightedGraph<Vertex> {
     vertices: Vec<Vertex>,
