@@ -1,6 +1,4 @@
-use core::fmt;
-use std::mem::swap;
-use std::result;
+use std::fmt;
 
 use classic_computer_science_problems::genetic_algorithm::*;
 use rand::seq::index::sample;

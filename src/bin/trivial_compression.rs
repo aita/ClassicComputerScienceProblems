@@ -22,7 +22,6 @@ fn decompress(bits: &BitVec) -> Vec<u8> {
             (false, true) => b'C',
             (true, false) => b'G',
             (true, true) => b'T',
-            _ => panic!("Invalid bit pattern: {:?}", chunk),
         };
         gene.push(nucleotide);
     }

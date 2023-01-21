@@ -2,8 +2,6 @@ use std::collections::HashMap;
 
 use classic_computer_science_problems::csp::*;
 
-type Grid = Vec<Vec<usize>>;
-
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct CircuitLocation {
     row: usize,

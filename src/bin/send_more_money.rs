@@ -1,6 +1,6 @@
 use classic_computer_science_problems::csp::*;
 use itertools::Itertools;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 struct SendMoreMoneyConstraint {
     letters: Vec<char>,

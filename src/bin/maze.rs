@@ -155,6 +155,7 @@ impl MazeBuilder {
     }
 }
 
+#[allow(dead_code)]
 fn euclidean_distance(goal: &MazeLocation) -> impl Fn(&MazeLocation) -> f64 + '_ {
     |loc| {
         let xdist = (loc.column as f64) - (goal.column as f64);

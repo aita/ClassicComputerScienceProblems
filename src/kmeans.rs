@@ -101,7 +101,7 @@ pub struct KMeans {
 }
 
 impl KMeans {
-    pub fn new(k: usize, mut points: Vec<DataPoint>) -> Self {
+    pub fn new(k: usize, points: Vec<DataPoint>) -> Self {
         if k < 1 {
             panic!("k must be greater than 0");
         }
